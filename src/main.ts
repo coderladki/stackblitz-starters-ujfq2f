@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { Observable, timeout } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'my-app',
@@ -17,12 +18,18 @@ import { Observable, timeout } from 'rxjs';
 })
 export class App implements OnInit {
   name = 'Angular';
+  url = 'https://dummyjson.com/products/1';
+
+  todo: any;
 
   constructor() {
     console.log('constructor() invoked!');
-    this.callingApi().subscribe((res) => {
-      console.log(res);
-    });
+    this.fetchData();
+    var p = this.callingApi();
+    console.log('p', p);
+    // .subscribe((res) => {
+    //   console.log(res);
+    // });
     setTimeout(() => {
       console.log('waiting over...');
     }, 5000);
@@ -38,6 +45,23 @@ export class App implements OnInit {
         observer.next('api returned data.');
       }, 1000);
     });
+
+    setTimeout(()=>{
+
+    },1000)
+
+  }
+  async fetchData() {
+    //const data = await this.httpClient.get(this.url).toPromise();
+    // this.todo = data;
+    // console.log('Data: ' + JSON.stringify(data));
+
+    const data = await fetch('https://dummyjson.com/products/1')
+      .then((res) => res.json())
+      .then((json) => console.log(json));
+
+    this.todo = data;
+    console.log('Data: ' + JSON.stringify(data));
   }
 
   async delay() {
