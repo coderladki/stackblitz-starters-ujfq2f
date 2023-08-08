@@ -23,17 +23,30 @@ export class App implements OnInit {
     this.callingApi().subscribe((res) => {
       console.log(res);
     });
+    setTimeout(() => {
+      console.log('waiting over...');
+    }, 5000);
   }
   ngOnInit(): void {
     console.log('ngOninit() invoked!');
   }
 
   callingApi(): Observable<any> {
+    console.log('callingApi() invoked!');
     return new Observable((observer) => {
       setTimeout(() => {
         observer.next('api returned data.');
-      }, 5000);
+      }, 1000);
     });
+  }
+
+  async delay() {
+    console.log('delay() invoked!');
+    return await new Promise(() =>
+      setTimeout(() => {
+        console.log('waiting over...');
+      }, 10000)
+    );
   }
 }
 
